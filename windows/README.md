@@ -1,1 +1,1 @@
-#some skills about windows use C/C++
+# some skills about windows use C/C++
