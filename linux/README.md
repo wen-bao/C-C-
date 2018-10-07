@@ -1,2 +1,2 @@
-#some skills about linux use C/C++
+# some skills about linux use C/C++
 
