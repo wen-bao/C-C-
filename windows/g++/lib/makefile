@@ -1,11 +1,20 @@
-test : test.cpp MyMath.lib
-	g++ -o test test.cpp -L"." -lMyMath
+CXX 	= g++ -std=c++11
+INCLUDE = include
+SRC 	= src
+BIN 	= bin
+BUILD 	= build
+LIB 	= lib
 
-MyMath.lib : MyMath.o
-	ar cqs MyMath.lib MyMath.o
+CXXFLAGS = -I$(INCLUDE) -L$(LIB)
 
-MyMath.o : MyMath.cpp MyMath.h
-	g++ -c MyMath.cpp
+$(BIN)/test : $(SRC)/test.cpp $(LIB)/MyMath.lib
+	$(CXX) $(CXXFLAGS) -o $@ $(SRC)/test.cpp -lMyMath
+
+$(LIB)/MyMath.lib : $(BUILD)/MyMath.o
+	ar cqs $@ $(BUILD)/MyMath.o
+
+$(BUILD)/MyMath.o : $(SRC)/MyMath.cpp $(INCLUDE)/MyMath.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $(SRC)/MyMath.cpp
 
 clear : 
-	del /f *.o *.lib *.exe
+	del /f $(BUILD)\*.o $(LIB)\*.lib $(BIN)\*.exe

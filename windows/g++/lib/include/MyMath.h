@@ -1,7 +1,9 @@
 #ifndef _MYMATH_H_
 #define _MYMATH_H_
+#include <vector>
+
 class MyMath {
 public:
-    int add(int x, int y);
+    int add(std::vector<int> v);
 };
 #endif

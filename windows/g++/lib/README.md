@@ -13,9 +13,9 @@ windows + MinGW
 ### 编译
 
 ```shell
-g++ -c MyMath.cpp
-ar cqs MyMath.lib MyMath.o
-g++ -o test test.cpp -L"." -lMyMath
+g++ -std=c++11 -Iinclude -Llib -c -o build/MyMath.o src/MyMath.cpp
+ar cqs lib/MyMath.lib build/MyMath.o
+g++ -std=c++11 -Iinclude -o test src/test.cpp -lMyMath
 ```
 
 c   参数生成obj文件
