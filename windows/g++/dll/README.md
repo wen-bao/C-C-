@@ -27,9 +27,9 @@ windows + MinGW
 ---test.exe
 
 ```shell
-g++ -Iinclude -c -o build/MyMath.o src/MyMath.cpp
+g++ -std=c++11 -Iinclude -c -o build/MyMath.o src/MyMath.cpp
 g++ -shared -Wall -o bin/MyMath.dll build/MyMath.o
-g++ -Iinclude -Lbin -o test src/test.cpp -lMyMath
+g++ -std=c++11 -Iinclude -Lbin -o test src/test.cpp -lMyMath
 ```
 
 -shared 参数生成动态链接库
