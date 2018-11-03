@@ -73,7 +73,7 @@ class vector {
 
    protected:
     int w_capacity;
-    int *w_data;
+    T *w_data;
     int w_size;
 };
 

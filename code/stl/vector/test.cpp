@@ -3,6 +3,11 @@
 
 using namespace MyStl;
 
+struct Node {
+    int x;
+    std::string name;
+};
+
 
 int main() {
     int a[] = {4, 4, 3, 3, 6, 1, -1, -1, 5, 4};
@@ -54,6 +59,16 @@ int main() {
     std::cout << "\n===\ntest clear\n";
     mv.clear();
     std::cout << mv << std::endl;
+
+    std::cout << "\n===\ntest string\n";
+    vector<std::string> vs;
+    vs.push_back("wenbao");
+    std::cout << vs << std::endl;
+
+    std::cout << "\n===\ntest struct\n";
+    vector<Node> vnode;
+    vnode.push_back({1, "wenbao"});
+    std::cout << vnode[0].x << " " << vnode[0].name << std::endl;
 
     return 0;
 }
