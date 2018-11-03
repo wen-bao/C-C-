@@ -21,5 +21,24 @@ g++ -fPIC -std=c++11 -Iinclude -o bin/test src/test.cpp -lMyMath
 
 -shared 编译为动态链接库
 
+## 载入方式
 
+### 静态载入
 
+上面演示的就是静态载入的动态库的方式(-lMyMath)，最明显的是程序运行时立即加载动态库
+
+### 动态载入
+
+动态载入就是说在程序运行到需要时载入
+dlfcn.h
+void *dlopen(const char *pathname, int mode);
+
+mode
+RTLD_LAZY
+RTLD_NOW
+RTLD_GLOBAL
+RTLD_LOCAL
+
+void *dlsym(void *, const char *);
+int dlclose(void *);
+char *dlerror(void);

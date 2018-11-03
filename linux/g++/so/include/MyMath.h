@@ -1,10 +1,6 @@
-#ifndef _MYMATH_H_
-#define _MYMATH_H_
-#include <vector>
+#include "BaseMath.h"
 
-class MyMath {
+class MyMath : public BaseMath {
 public:
-	int add(std::vector<int> v);
+	virtual int add(std::vector<int> v);
 };
-
-#endif //!_MYMATH_H_

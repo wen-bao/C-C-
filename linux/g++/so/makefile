@@ -3,18 +3,27 @@ INCLUDE = include
 BIN 	= bin
 BUILD 	= build
 SRC 	= src
-LIB		= /usr/lib
+SLIB	= /usr/lib
+DLIB 	= lib
 
 CXXFLAGS = -std=c++11 -I$(INCLUDE)
 
-$(BIN)/test : $(SRC)/test.cpp $(LIB)/libMyMath.so
+all : $(BIN)/dltest $(BIN)/test
+
+$(BIN)/dltest : $(SRC)/dltest.cpp $(DLIB)/MyMath.so
+	$(CXX) $(CXXFLAGS) -o $@ $(SRC)/dltest.cpp -ldl
+
+$(DLIB)/MyMath.so : $(BUILD)/MyMath.o
+	$(CXX) -shared -o $@ $(BUILD)/MyMath.o
+
+$(BIN)/test : $(SRC)/test.cpp $(SLIB)/libMyMath.so
 	$(CXX) $(CXXFLAGS) -o $@ $(SRC)/test.cpp -lMyMath
 
-$(LIB)/libMyMath.so : $(BUILD)/MyMath.o
+$(SLIB)/libMyMath.so : $(BUILD)/MyMath.o
 	$(CXX) -shared -o $@ $(BUILD)/MyMath.o
 
 $(BUILD)/MyMath.o : $(SRC)/MyMath.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $(SRC)/MyMath.cpp
 
 clear :
-	rm -rf $(BIN)/test $(BUILD)/MyMath.o $(LIB)/libMyMath.so
+	rm -rf $(BIN)/test $(BIN)/dltest $(BUILD)/MyMath.o $(SLIB)/libMyMath.so $(DLIB)/MyMath.so
