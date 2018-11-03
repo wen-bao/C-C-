@@ -30,6 +30,7 @@ g++ -fPIC -std=c++11 -Iinclude -o bin/test src/test.cpp -lMyMath
 ### 动态载入
 
 动态载入就是说在程序运行到需要时载入
+
 dlfcn.h
 void *dlopen(const char *pathname, int mode);
 
