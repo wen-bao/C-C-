@@ -29,8 +29,9 @@ g++ -fPIC -std=c++11 -Iinclude -o bin/test src/test.cpp -lMyMath
 
 ### 动态载入
 
-动态载入就是说在程序运行到需要时载入
+动态载入就是说在程序运行到需要时载入,主要通过dl相关库函数实现
 
+```c++
 dlfcn.h
 void *dlopen(const char *pathname, int mode);
 
@@ -43,3 +44,4 @@ RTLD_LOCAL
 void *dlsym(void *, const char *);
 int dlclose(void *);
 char *dlerror(void);
+```
