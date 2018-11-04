@@ -10,7 +10,12 @@ int MyMath::add(std::vector<int> v) {
     return sum;
 }
 
-int createObj(BaseMath *& client) {
-	client = new MyMath();
+int createObj(BaseMath *& obj) {
+	obj = new MyMath();
 	return 0;
+}
+
+int deleteObj(BaseMath *& obj) {
+    delete obj;
+    return 0;
 }
