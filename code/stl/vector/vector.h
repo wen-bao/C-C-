@@ -284,11 +284,11 @@ template <typename T>
 inline void vector<T>::selectSort(int lo, int hi) {
     assert(lo >= 0 && hi <= w_size && lo < hi);
 
-    for (int i = 0; i < w_size - 1; ++i) {
+    for (int i = lo; i < hi - 1; ++i) {
         T mi = w_data[i];
         int index = i;
 
-        for (int j = i + 1; j < w_size; ++j) {
+        for (int j = i + 1; j < hi; ++j) {
             if (w_data[j] < mi) {
                 mi = w_data[j];
                 index = j;
