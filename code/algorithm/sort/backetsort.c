@@ -60,12 +60,18 @@ void bucketsort(int *arr, int size, int numOfbucket) {
 
     //print or save
     int count = 0;
+    bucket_table *del;
     for(i = 0; i < numOfbucket; ++i) {
         bucket_table *tmp = bucketTable[i] -> next;
+        free(bucketTable[i]);
+        bucketTable[i] = NULL;
         while(tmp) {
             //printf("%d\n", tmp -> key);
+            del = tmp;
             arr[count++] = tmp -> key;
             tmp = tmp -> next;
+            free(del);
+            del = NULL;
         }
     }
 }
