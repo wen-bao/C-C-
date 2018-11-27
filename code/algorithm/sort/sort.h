@@ -32,16 +32,17 @@ inline void swap(T &a, T &b) {
 template <typename T>
 inline void bubbleSort(T &arr, int lo, int len) {
     int size = sizeof(arr) / sizeof(arr[0]);
-    assert(lo >= 0 && len <= size && lo < len);
+    assert(lo >= 0 && lo + len <= size);
 
     bool sorted = false;
     while (!sorted) {
         sorted = true;
 
-        for (int i = lo + 1; i < len; ++i) {
-            if (arr[i - 1] > arr[i]) {
+        for (int i = 1; i < len; ++i) {
+            int pos = lo + i;
+            if (arr[pos - 1] > arr[pos]) {
                 sorted = false;
-                swap(arr[i - 1], arr[i]);
+                swap(arr[pos - 1], arr[pos]);
             }
         }
 
@@ -53,30 +54,30 @@ inline void bubbleSort(T &arr, int lo, int len) {
 
 // selectSort
 template <typename T>
-inline void selectSort(T *arr, int lo, int len) {
-    assert(lo >= 0 && lo < len);
+inline void selectSort(T &arr, int lo, int len) {
+    int size = sizeof(arr) / sizeof(arr[0]);
+    assert(lo >= 0 && lo + len <= size);
 
-    for (int i = lo; i < len - 1; ++i) {
-        T mi = arr[i];
-        int index = i;
+    for (int i = 0; i < len - 1; ++i) {
+        int posi = lo + i;
         for (int j = i + 1; j < len; ++j) {
-            if (mi > arr[j]) {
-                mi = arr[j];
-                index = j;
+            int posj = lo + j;
+            if (arr[posi] > arr[posj]) {
+                swap(arr[posi], arr[posj]);
             }
         }
-
-        swap(arr[index], arr[i]);
     }
 }
 
 // insertSort
 template <typename T>
-inline void insertSort(T *arr, int lo, int len) {
-    assert(lo >= 0 && lo < len);
+inline void insertSort(T &arr, int lo, int len) {
+    int size = sizeof(arr) / sizeof(arr[0]);
+    assert(lo >= 0 && lo + len <= size);
 
-    for (int i = lo + 1; i < len; ++i) {
-        for (int j = i; j > lo; --j) {
+    for (int i = 1; i < len; ++i) {
+        int posi = lo + i;
+        for (int j = posi; j > lo; --j) {
             if (arr[j - 1] > arr[j]) {
                 swap(arr[j - 1], arr[j]);
             } else {
@@ -88,8 +89,9 @@ inline void insertSort(T *arr, int lo, int len) {
 
 // shellSort
 template <typename T>
-inline void shellSort(T *arr, int lo, int len) {
-    assert(lo >= 0 && lo < len);
+inline void shellSort(T &arr, int lo, int len) {
+    int size = sizeof(arr) / sizeof(arr[0]);
+    assert(lo >= 0 && lo + len <= size);
 
     int h = 1;
 
@@ -110,12 +112,12 @@ inline void shellSort(T *arr, int lo, int len) {
 
 // mergSort
 template <typename T>
-inline void merg(T *arr, int lo, int mid, int len) {
-    assert(lo >= 0 && lo < mid && mid < len);
+inline void merg(T *arr, int lo, int mid, int hi) {
+    assert(lo >= 0 && lo < mid && mid < hi);
 
-    T *tmp = new T[len - lo];
+    T *tmp = new T[hi - lo];
 
-    int llen = mid - lo, rlen = len - mid;
+    int llen = mid - lo, rlen = hi - mid;
 
     int li = 0, ri = 0, index = 0;
     while ((li < llen) && (ri < rlen)) {
@@ -134,7 +136,7 @@ inline void merg(T *arr, int lo, int mid, int len) {
         tmp[index++] = arr[mid + ri++];
     }
 
-    for (int i = lo; i < len; ++i) {
+    for (int i = lo; i < hi; ++i) {
         arr[i] = tmp[i - lo];
     }
 
@@ -142,45 +144,51 @@ inline void merg(T *arr, int lo, int mid, int len) {
 }
 
 template <typename T>
-inline void mergeSort(T *arr, int lo, int len) {
-    assert(lo >= 0 && lo < len);
+inline void mergeSort(T &arr, int lo, int len) {
+    int size = sizeof(arr) / sizeof(arr[0]);
+    assert(lo >= 0 && lo + len <= size);
 
-    if (1 < (len - lo)) {
-        int mid = (lo + len) >> 1;
+    if (1 < len) {
+        int mid = len >> 1;
         mergeSort(arr, lo, mid);
-        mergeSort(arr, mid, len);
-        merg(arr, lo, mid, len);
+        mergeSort(arr, lo + mid, len - mid);
+        merg(arr, lo, lo + mid, lo + len);
     }
 }
 
 // quickSort
 template <typename T>
-inline void quickSort(T *arr, int lo, int len) {
-    if (lo >= len || lo + 1 == len) return;
+inline void quickSort(T &arr, int lo, int len) {
+    if(len <= 1) return;
+
+    int size = sizeof(arr) / sizeof(arr[0]);
+    assert(lo >= 0 && lo + len <= size);
 
     srand(static_cast<unsigned int>(time(NULL)));
-    int index = rand() % (len - lo) + lo;
+    int index = rand() % len + lo;
 
-    T aim = arr[index];
     swap(arr[lo], arr[index]);
-    int l = lo, r = len - 1;
+    int l = lo, r = lo + len - 1;
 
     while (l < r) {
-        while (l < r && arr[r] > aim) r--;
-        arr[l] = arr[r];
-        while (l < r) {
-            if (arr[l] > aim) {
+        while (l < r && arr[r] > arr[lo]) r--;
+        while(l < r) {
+            if(arr[l] > arr[lo]) {
                 break;
             } else {
-                l++;
+                l ++;
             }
         }
-        arr[r] = arr[l];
+        if(l !=  r) {
+            swap(arr[l], arr[r]);
+        }
+    }
+    if(l != lo) {
+        swap(arr[lo], arr[l]);
     }
 
-    arr[l] = aim;
-    quickSort(arr, lo, l);
-    quickSort(arr, l + 1, len);
+    quickSort(arr, lo, l - lo);
+    quickSort(arr, l + 1, len - (l - lo) - 1);
 }
 
 // heapSort
@@ -211,10 +219,13 @@ inline void buildHeap(T *arr, int lo, int n) {
 }
 
 template <typename T>
-inline void heapSort(T *arr, int lo, int len) {
-    buildHeap(arr, lo, len - lo);
+inline void heapSort(T &arr, int lo, int len) {
+    int size = sizeof(arr) / sizeof(arr[0]);
+    assert(lo >= 0 && lo + len <= size);
 
-    for (int i = len - lo; i > 0; --i) {
+    buildHeap(arr, lo, len);
+
+    for (int i = len; i > 0; --i) {
         swap(arr[lo], arr[lo + i - 1]);
         update(arr, lo, 1, i - 1);
     }
@@ -222,10 +233,10 @@ inline void heapSort(T *arr, int lo, int len) {
 
 // sort
 template <typename T>
-void sort(T *arr, int lo, int len) {
-    if (len - lo <= INSERTLIMIT) {
+void sort(T &arr, int lo, int len) {
+    if (len <= INSERTLIMIT) {
         insertSort(arr, lo, len);
-    } else if (len - lo >= HEAPLIMIT) {
+    } else if (len >= HEAPLIMIT) {
         heapSort(arr, lo, len);
     } else {
         quickSort(arr, lo, len);
@@ -233,9 +244,9 @@ void sort(T *arr, int lo, int len) {
 }
 
 // radixSort
-int maxBit(int *arr, int lo, int len) {
+int maxBit(int *arr, int lo, int hi) {
     int ma = arr[lo];
-    for (int i = lo + 1; i < len; ++i) {
+    for (int i = lo + 1; i < hi; ++i) {
         ma = (arr[i] > ma ? arr[i] : ma);
     }
 
@@ -248,7 +259,7 @@ int maxBit(int *arr, int lo, int len) {
 }
 
 void radixSort(int *arr, int lo, int len) {
-    int d = maxBit(arr, lo, len);
+    int d = maxBit(arr, lo, lo + len);
 
     int *tmp = new int[len];
     int *count = new int[10];
@@ -262,6 +273,7 @@ void radixSort(int *arr, int lo, int len) {
             int k = (arr[lo + j] / radix) % 10;
             count[k]++;
         }
+        //cool begin
         for (int j = 1; j < 10; ++j) {
             count[j] = count[j - 1] + count[j];
         }
@@ -270,6 +282,7 @@ void radixSort(int *arr, int lo, int len) {
             tmp[count[k] - 1] = arr[lo + j];
             count[k]--;
         }
+        //cool end
         for (int j = 0; j < len; ++j) {
             arr[lo + j] = tmp[j];
         }
