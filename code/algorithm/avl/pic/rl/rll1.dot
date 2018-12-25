@@ -1,0 +1,18 @@
+graph g {
+    bgcolor = black;
+    3 -- 1 [color = white];
+    3 -- 5 [color = white];
+    5 -- 4 [color = white];
+    5 -- 7 [color = white];
+    7 -- NULL [style = "invis"];
+    7 -- 9 [color = white];
+    1 [shape = circle, style = filled, fillcolor = white];
+    3 [shape = circle, style = filled, fillcolor = red];
+    5 [shape = circle, style = filled, fillcolor = white];
+    7 [shape = circle, style = filled, fillcolor = white];
+    9 [shape = circle, style = filled, fillcolor = white];
+    4 [shape = circle, style = filled, fillcolor = white];
+    NULL [style = "invis"];
+}
+
+//dot rll1.dot | gvpr -c -f binarytree.gvpr | neato -n -Tpng -o rll1.png

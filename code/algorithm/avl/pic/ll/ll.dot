@@ -1,0 +1,17 @@
+graph test{
+    bgcolor = black;
+    5 -- 3 [color = white];
+    5 -- 6 [color = white];
+    3 -- 2 [color = white];
+    3 -- 4 [color = white];
+    2 -- 1 [color = white];
+    2 -- NULL [style = "invis"];
+    1 [shape = circle, style = filled, fillcolor = blue];
+    2 [shape = circle, style = filled, fillcolor = white];
+    3 [shape = circle, style = filled, fillcolor = white];
+    4 [shape = circle, style = filled, fillcolor = white];
+    5 [shape = circle, style = filled, fillcolor = red];
+    6 [shape = circle, style = filled, fillcolor = white];
+    NULL [style = "invis"];
+}
+//dot ll.dot | gvpr -c -f binarytree.gvpr | neato -n -Tpng -o ll.png
